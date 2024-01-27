@@ -5,19 +5,11 @@
 class Vector
 {
 private:
-    int *m_startPtr = new int[0];
-    int *m_currPtr = new int[0];
+    int *m_startPtr = new int[8];
     int m_size = 0;
-    int m_capacity = 0;
+    int m_capacity = 8;
 
 public:
-    // TODO: constructor
-    Vector()
-        : m_capacity{8}, m_startPtr{new int[8]}
-    {
-        m_currPtr = m_startPtr;
-    }
-
     // TODO: constructor taking in init list.
     // Vector(std::initializer_list<int> &ls)
 
@@ -27,15 +19,13 @@ public:
         {
             int newCapacity = m_capacity * 2;
             int *temp = new int[newCapacity];
-            for (int i = 0; i < m_size; ++i)
-            {
-                temp[i] = m_startPtr[i];
-            }
+            std::memcpy(temp, m_startPtr, m_capacity * sizeof(*m_startPtr));
+            delete[] (m_startPtr);
+            m_startPtr = temp;
             m_capacity = newCapacity;
         }
 
-        *m_currPtr = element;
-        m_currPtr++;
+        m_startPtr[m_size] = element;
         m_size++;
     };
 
@@ -58,23 +48,51 @@ public:
         return m_capacity;
     }
 
-    int front(){
-        // TODO: get data in front of the vector.
+    void print()
+    {
+        std::cout << "[";
+        for (auto i = 0; i < m_size; ++i)
+        {
+            std::cout << m_startPtr[i];
+            if (i < m_size - 1)
+            {
+                std::cout << ",";
+            }
+        }
+        std::cout << "]" << std::endl;
+    }
+
+    int front()
+    {
+        return m_startPtr[0];
     };
 
-    int back(){
-        // TODO: get data at the back of the vector.
+    int back()
+    {
+        return m_startPtr[m_size];
     };
 
-    // TODO: destructor
-    ~Vector(){};
+    ~Vector()
+    {
+        delete[] m_startPtr;
+    };
 };
 
 int main()
 {
-    Vector v{};
-    v.push_back(34);
-    std::cout << "capacity is: " << v.capacity() << std::endl;
-    std::cout << "size is: " << v.size() << std::endl;
-    std::cout << v.at(0);
+    Vector *v = new Vector;
+    v->push_back(34);
+    std::cout << "capacity is: " << v->capacity() << std::endl;
+    std::cout << "size is: " << v->size() << std::endl;
+    std::cout << v->at(0) << std::endl;
+
+    // Test capacity expansion.
+    Vector *v1 = new Vector;
+    for (int i = 0; i < 20; ++i)
+    {
+        v1->push_back(i);
+    }
+    std::cout << "size is now: " << v1->size() << std::endl;
+    std::cout << "capacity is now: " << v1->capacity() << std::endl;
+    v1->print();
 };
