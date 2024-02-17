@@ -12,4 +12,5 @@
 ### Methods
 [x] push_back \
 [ ] front \
-[ ] delete
+[ ] erase \
+[ ] insert
