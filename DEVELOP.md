@@ -14,3 +14,9 @@
 [ ] front \
 [ ] erase \
 [ ] insert
+
+## Unordered Map
+### Methods
+[x] insert \
+[x] get \
+[ ] delete
