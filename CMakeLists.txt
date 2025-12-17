@@ -37,13 +37,19 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(array_t_test array/array_t_test.cpp)
+add_executable(umap_test unordered_map/umap_test.cpp unordered_map/umap.cpp)
 target_link_libraries(
   array_t_test
+  GTest::gtest_main
+)
+target_link_libraries(
+  umap_test 
   GTest::gtest_main
 )
 
 include(GoogleTest)
 gtest_discover_tests(array_t_test)
+gtest_discover_tests(umap_test)
 
 # target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
 
